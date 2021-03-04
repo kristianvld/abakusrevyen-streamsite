@@ -3,8 +3,10 @@
 	import Phone from '../components/phone.svelte';
 	import Toggle from '../components/toggle.svelte';
 	import Video from '../components/video.svelte';
-	import { screenWidth } from '../components/storage';
-	import { onMount } from 'svelte';
+	import { screenWidth, video_url, question } from '../components/storage';
+	import Question from '../components/question.svelte';
+	import Program from '../components/program.svelte';
+	import Drikkelek from '../components/drikkelek.svelte';
 
 	let chat = true;
 	const soloChatWidth = 800;
@@ -21,9 +23,16 @@
 	</div>
 </div>
 <div class="row main">
-	<Video hidden={chat && $screenWidth <= soloChatWidth} />
-	<Chat hidden={!chat} solo={$screenWidth <= soloChatWidth} />
+	<Video hidden={chat && $screenWidth <= soloChatWidth} url={$video_url} />
+	{#if $question}
+		<Question question={$question} solo={$screenWidth <= soloChatWidth} />
+	{:else}
+		<Chat hidden={!chat} solo={$screenWidth <= soloChatWidth} />
+	{/if}
 </div>
+
+<Program />
+<Drikkelek />
 
 <style>
 	h1 {

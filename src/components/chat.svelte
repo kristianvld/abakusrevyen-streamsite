@@ -1,6 +1,12 @@
 <script>
+	import { onMount } from 'svelte';
+
 	export let hidden;
 	export let solo;
+	let host = 'abakusrevyen.no';
+	onMount(() => {
+		host = window.location.hostname;
+	});
 </script>
 
 <iframe
@@ -9,7 +15,7 @@
 	title="chat"
 	width="720"
 	height="1080"
-	src="https://www.youtube.com/live_chat?v=rxNzJ0hvmaY&embed_domain=192.168.1.101"
+	src="https://www.youtube.com/live_chat?v=rxNzJ0hvmaY&embed_domain={host}"
 	frameborder="0"
 />
 
@@ -24,6 +30,7 @@
 	}
 
 	.solo {
-		max-width: 100%;
+		max-width: unset;
+		min-zoom: unset;
 	}
 </style>

@@ -1,14 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
-	import { screenWidth } from '../components/storage';
-
-	export let segment;
+	import { screenWidth, connectWebSocket } from '../components/storage';
 
 	onMount(async () => {
 		$screenWidth = window.screen.width;
 		window.addEventListener('resize', (e) => {
 			$screenWidth = window.screen.width;
 		});
+		connectWebSocket();
 	});
 </script>
 

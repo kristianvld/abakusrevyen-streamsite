@@ -1,13 +1,14 @@
 <script>
 	export let hidden;
+	export let url;
 </script>
 
 <iframe
-	class:hidden
+	class:hidden={hidden || !url}
 	title="video stream"
 	width="1920"
 	height="1080"
-	src="https://www.youtube-nocookie.com/embed/rxNzJ0hvmaY"
+	src={url}
 	frameborder="0"
 	allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 	allowfullscreen
