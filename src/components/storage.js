@@ -7,7 +7,7 @@ export const ws = writable();
 
 
 export const connectWebSocket = () => {
-	const wss = new WebSocket(`ws://${window.location.hostname}:1337`);
+	const wss = new WebSocket(`wss://${window.location.hostname}:1337`);
 	wss.onmessage = (msg) => {
 		const obj = JSON.parse(msg.data);
 		const type = obj.type;
