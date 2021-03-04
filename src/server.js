@@ -67,7 +67,7 @@ const setQuestion = (title, options) => {
 	sendWS('question', { title, options });
 }
 
-setVideo('https://www.youtube-nocookie.com/embed/n_XySsY2ZOU');
+setVideo('https://www.youtube-nocookie.com/embed/4cmYfid2SbY');
 setQuestion();
 
 app.get('/questionResults', (req, res) => {

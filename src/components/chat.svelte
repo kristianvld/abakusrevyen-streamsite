@@ -15,7 +15,7 @@
 	title="chat"
 	width="720"
 	height="1080"
-	src="https://www.youtube.com/live_chat?v=rxNzJ0hvmaY&embed_domain={host}"
+	src="https://www.youtube.com/live_chat?v=4cmYfid2SbY&embed_domain={host}"
 	frameborder="0"
 />
 
