@@ -1,0 +1,134 @@
+body {
+	font-size: 20px;
+	line-height: 1.5;
+	margin: 0;
+	padding: 0;
+	background-color: rgb(29, 50, 94);
+	color: white;
+	font-family: "AEH";
+	font-weight: 600;
+	font-family: 'f', Cantarell, 'Apple', BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: "AEH";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5em 0;
+	font-weight: 900;
+	line-height: 1.2;
+}
+
+h1 {
+	margin-top: 1.5em;
+	font-size: 2em;
+}
+
+p {
+	margin: 0.4em;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a,
+a[href^="mailto"] {
+	color: #FF5964;
+}
+
+.small {
+	font-size: 0.9em;
+}
+
+.block {
+	margin: 1.5em;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+main {
+	position: relative;
+	max-width: 60em;
+	padding: 1em;
+	margin: 0 auto;
+	box-sizing: border-box;
+	min-height: 60vh;
+}
+
+.button {
+	border-radius: 5px;
+	padding: 0.5em;
+	font-size: 1.2em;
+	color: white;
+	border-width: 0.2em;
+	border-style: solid;
+	transition: 0.2s cubic-bezier(0.66, 0.05, 0.5, 1.57);
+}
+
+.button:hover {
+	border-width: 0;
+	padding: 0.8em;
+	transition: 0.2s cubic-bezier(0.66, 0.05, 0.5, 1.57);
+}
+
+.youtube-red {
+	border-color: #e74a4a;
+	background-color: #ea5353;
+}
+
+.blue {
+	border-color: #72a0ae;
+	background-color: #6b97ab;
+}
+
+.hidden {
+	display: none;
+}
+
+@media (max-width: 1600px) {
+	body {
+		font-size: 18px;
+	}
+}
+
+@media (max-width: 1200px) {
+	body {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 800px) {
+	body {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 400px) {
+	body {
+		font-size: 12px;
+	}
+}
+
+@font-face {
+	font-family: "AEH";
+	src: url("/font/AEH.ttf");
+	font-weight: 900;
+}
+
+@font-face {
+	font-family: "AEH";
+	src: url("/font/AER.ttf");
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: "Stamper";
+	src: url("old_stamper.ttf");
+}
