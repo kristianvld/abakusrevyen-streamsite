@@ -2,7 +2,7 @@
 	import Images from './images.svelte';
 	import img from '../assets/drikkelek.png';
 
-	const imgs = [{ src: img, alt: 'Trikkelek side 1' }];
+	const imgs = [{ src: img, alt: 'Drikkelek side 1' }];
 </script>
 
-<Images title="Trikkelek" {imgs} />
+<Images title="Drikkelek" {imgs} />
