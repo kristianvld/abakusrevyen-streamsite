@@ -1,36 +1,23 @@
-# sapper-template
-
-The default template for setting up a [Sapper](https://github.com/sveltejs/sapper) project. Can use either Rollup or webpack as bundler.
-
+# Stream site used for Abakusrevyen 2021
 
 ## Getting started
 
+### Ports:
+The project uses port `1337` for websockets. It runs by default on `127.0.0.1:3000`
 
-### Using `degit`
+Start by running `docker-compose up`
 
-To create a new Sapper project based on Rollup locally, run
+### Admin:
 
-```bash
-npx degit "sveltejs/sapper-template#rollup" my-app
+**Push new video URL:**
+```
+curl <host>/newURL -H 'Content-Type: application/json' -XPOST -d '{"token": "<admin_token>", "url": "https://www.youtube-nocookie.com/embed/rxNzJ0hvmaY"}'
 ```
 
-For a webpack-based project, instead run
-
-```bash
-npx degit "sveltejs/sapper-template#webpack" my-app
+**Push survey:**
 ```
-
-[`degit`](https://github.com/Rich-Harris/degit) is a scaffolding tool that lets you create a directory from a branch in a repository.
-
-Replace `my-app` with the path where you wish to create the project.
-
-
-### Using GitHub templates
-
-Alternatively, you can create the new project as a GitHub repository using GitHub's template feature.
-
-Go to either [sapper-template-rollup](https://github.com/sveltejs/sapper-template-rollup) or [sapper-template-webpack](https://github.com/sveltejs/sapper-template-webpack) and click on "Use this template" to create a new project repository initialized by the template.
-
+curl <host>/newQuestion -H 'Content-Type: application/json' -XPOST -d '{"token": "<admin-token>", "question": {"title": "Fint vær?", "options": ["ja", "nei"]}}'
+```
 
 ### Running the project
 
