@@ -31,7 +31,7 @@ questions.subscribe(val => {
 
 
 export const connectWebSocket = () => {
-	const wss = new WebSocket(`${window.location.protocol == 'https' ? 'wss' : 'ws'}://${window.location.hostname}:1337`);
+	const wss = new WebSocket(`${window.location.protocol.substring(0, 5) == 'https' ? 'wss' : 'ws'}://${window.location.hostname}:1337`);
 	wss.onmessage = (msg) => {
 		console.log('got ws data:', msg);
 		const obj = JSON.parse(msg.data);
