@@ -36,8 +36,10 @@ wss.on('connection', ws => {
 			let key, value;
 			({ key, value } = msg);
 			if (key == 'answers') {
-				if (activeQuestions && value in activeQuestions) {
-					activeQuestions[value] += 1;
+				for (let i = 0; i < value.length; i++) {
+					if (activeQuestions && value[i] in activeQuestions.questions[i]) {
+						activeQuestions.questions[i][value[i]] += 1;
+					}
 				}
 			} else {
 				console.log(`got unknown WS data from ${ws}:`, msg);
