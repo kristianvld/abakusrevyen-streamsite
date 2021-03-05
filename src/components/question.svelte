@@ -1,27 +1,19 @@
 <script>
-	import { ws, sendAnswer, question } from './storage';
-
 	export let solo;
-
+	export let question;
 	export let value;
-
-	const submit = () => {
-		if (!value) {
-			return;
-		}
-		sendAnswer($ws, value);
-	};
+	export let hidden;
+	export let update = () => {};
 </script>
 
-<div class:solo class="holder">
-	<h3>{$question.title}</h3>
-	{#each $question.options as option}
+<div class:solo class:hidden class="holder">
+	<h3>{question.title}</h3>
+	{#each question.options as option}
 		<label>
-			<input type="radio" bind:group={value} value={option} />
+			<input type="radio" bind:group={value} value={option} on:input={(e) => update(e.target.value)} />
 			{option}
 		</label>
 	{/each}
-	<button on:click={submit} disabled={!value}>Send</button>
 </div>
 
 <style>
@@ -85,25 +77,5 @@
 		top: 0;
 		left: 0;
 		width: calc(100% - 1em);
-	}
-
-	button {
-		border: none;
-		color: white;
-		background: #00000040;
-		border-radius: 0.25em;
-		cursor: pointer;
-		font-size: 1em;
-		padding: 0.25em;
-	}
-
-	button:active {
-		background: #00000080;
-	}
-
-	button:disabled {
-		background: #00000040;
-		color: #aaa;
-		cursor: default;
 	}
 </style>

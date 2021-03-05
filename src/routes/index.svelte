@@ -3,8 +3,8 @@
 	import Phone from '../components/phone.svelte';
 	import Toggle from '../components/toggle.svelte';
 	import Video from '../components/video.svelte';
-	import { screenWidth, video_url, question } from '../components/storage';
-	import Question from '../components/question.svelte';
+	import { screenWidth, video_url, questions, chat_id } from '../components/storage';
+	import Questions from '../components/questions.svelte';
 	import Program from '../components/program.svelte';
 	import Drikkelek from '../components/drikkelek.svelte';
 
@@ -18,15 +18,17 @@
 
 <div class="row">
 	<h1>Marionett | Abakusrevyen 2021</h1>
-	<div class="right">
-		<Toggle bind:value={chat} />
-	</div>
+	{#if $chat_id || $questions}
+		<div class="right">
+			<Toggle bind:value={chat} />
+		</div>
+	{/if}
 </div>
 <div class="row main">
 	<Video hidden={chat && $screenWidth <= soloChatWidth} url={$video_url} />
-	{#if $question}
-		<Question question={$question} solo={$screenWidth <= soloChatWidth} />
-	{:else}
+	{#if $questions}
+		<Questions solo={$screenWidth <= soloChatWidth} />
+	{:else if $chat_id}
 		<Chat hidden={!chat} solo={$screenWidth <= soloChatWidth} />
 	{/if}
 </div>

@@ -16,7 +16,7 @@ curl <host>/newURL -H 'Content-Type: application/json' -XPOST -d '{"token": "<ad
 
 **Push survey:**
 ```
-curl <host>/newQuestion -H 'Content-Type: application/json' -XPOST -d '{"token": "<admin-token>", "question": {"title": "Fint vær?", "options": ["ja", "nei"]}}'
+curl <host>/news -H 'Content-Type: application/json' -XPOST -d '{"token": "<admin-token>", "questions": [{"title": "Fint vær?", "options": ["ja", "nei"]}}]'
 ```
 
 ### Running the project

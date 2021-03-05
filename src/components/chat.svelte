@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { chat_id } from '../components/storage';
 
 	export let hidden;
 	export let solo;
@@ -15,7 +16,7 @@
 	title="chat"
 	width="720"
 	height="1080"
-	src="https://www.youtube.com/live_chat?v=4cmYfid2SbY&embed_domain={host}"
+	src="https://www.youtube.com/live_chat?v={$chat_id}&embed_domain={host}"
 	frameborder="0"
 />
 

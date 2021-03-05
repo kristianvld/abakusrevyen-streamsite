@@ -8,9 +8,10 @@ import bodyParser from 'body-parser';
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-const admin_key = 'efdb12ef3b6dc019e9f683050911abcb706d9ded82e5bc8f8b06b3cb630a';
+const admin_key = process.env.ADMIN_KEY || 'efdb12ef3b6dc0';
 const ip_log = {};
-let activeQuestion = {};
+let activeQuestions = false;
+let questionsLog = [];
 const messages = {};
 
 const app = express();
@@ -27,23 +28,23 @@ const sendWS = (key, obj) => {
 }
 
 wss.on('connection', ws => {
-	console.log('got ws connection');
+	console.log('got ws connection', ws._socket.remoteAddress);
 	ws.on('message', msg => {
-		console.log('-> ' + msg);
 		try {
+			msg = JSON.parse(msg);
+			console.log('-> ', msg);
 			let key, value;
-			({ key, value } = JSON.parse(msg));
-			if (key == 'answer') {
-				if (activeQuestion && value in activeQuestion) {
-					activeQuestion[value] += 1;
+			({ key, value } = msg);
+			if (key == 'answers') {
+				if (activeQuestions && value in activeQuestions) {
+					activeQuestions[value] += 1;
 				}
 			} else {
 				console.log(`got unknown WS data from ${ws}:`, msg);
 			}
 		} catch (error) {
-			console.error('Error parsing incomming WS data:', error);
+			console.error('Error parsing incomming WS data:', error, msg);
 		}
-		ws.send('pong');
 	});
 
 	Object.keys(messages).forEach(key => {
@@ -56,40 +57,65 @@ const setVideo = url => {
 	sendWS('video_url', url);
 };
 
-const setQuestion = (title, options) => {
-	if (!title || !options) {
-		activeQuestion = undefined;
-		sendWS('question', activeQuestion);
-		return;
-	}
-	activeQuestion = { title };
-	options.forEach(option => activeQuestion[option] = 0);
-	sendWS('question', { title, options });
+const setChatID = id => {
+	sendWS('chat_id', id);
 }
 
-setVideo('https://www.youtube-nocookie.com/embed/4cmYfid2SbY');
-setQuestion();
+const setQuestions = (questions) => {
+	console.log('Old question answers:', activeQuestions);
+	if (activeQuestions) {
+		questionsLog.push(activeQuestions);
+	}
+	if (!questions) {
+		activeQuestions = undefined;
+		sendWS('questions', null);
+		return;
+	}
+	activeQuestions = { date: new Date(), questions: [] };
+
+	questions.forEach(q => {
+		const aq = { title: q.title };
+		q.options.forEach(option => {
+			aq[option] = 0;
+		});
+		activeQuestions.questions.push(aq);
+	});
+	sendWS('questions', { date: activeQuestions.date, questions });
+}
+
+setVideo('https://www.youtube-nocookie.com/embed/VuawhGK55kI');
+setChatID('VuawhGK55kI')
+setQuestions();
 
 app.get('/questionResults', (req, res) => {
-	res.send(activeQuestion);
+	res.send(activeQuestions);
 });
 
-app.post('/newQuestion', (req, res) => {
+app.post('/newQuestions', (req, res) => {
 	if (req.body?.token != admin_key) {
 		res.status(401).send({ error: 'Permission denied' });
 		return;
 	}
 
-	if (typeof req.body.question?.title === 'string' && typeof Array.isArray(req.body.question?.options)) {
-		setQuestion(req.body.question.title, req.body.question.options);
+	if (Array.isArray(req.body.questions)) {
+		const arr = [];
+		for (let q of req.body.questions) {
+			if (typeof q.title === 'string' && Array.isArray(q.options)) {
+				arr.push({ title: q.title, options: q.options });
+			} else {
+				res.status(400).send({ error: `Array contains invalid question: ${JSON.stringify(q)}` });
+			}
+		}
+		setQuestions(arr);
 		res.send({ msg: 'ok' });
-	} else if (req.body.question == 'none') {
-		setQuestion();
+	} else if (req.body.questions == 'none') {
+		setQuestions();
 		res.send({ msg: 'ok' });
 	} else {
-		res.status(400).send({ error: 'Invalid request, expected key "question" to be object on the form {"title": "...", options: ["ans1", "ans2", "ans3"]} or "none"' });
+		res.status(400).send({ error: 'Invalid request, expected key "questions" to be array objects on the form [{"title": "...", options: ["ans1", "ans2", "ans3"]}] or "none"' });
 	}
-});
+}
+);
 
 app.post('/newURL', (req, res) => {
 	if (req.body?.token != admin_key) {
@@ -101,6 +127,19 @@ app.post('/newURL', (req, res) => {
 		res.send({ msg: 'ok' });
 	} else {
 		res.status(400).send({ error: 'Expected "url" to be a string' });
+	}
+});
+
+app.post('/newChat', (req, res) => {
+	if (req.body?.token != admin_key) {
+		res.status(401).send({ error: 'Permission denied' });
+		return;
+	}
+	if (typeof req.body.chat === 'string') {
+		setChatID(req.body.chat);
+		res.send({ msg: 'ok' });
+	} else {
+		res.status(400).send({ error: 'Expected "chat" to be a string' });
 	}
 });
 
